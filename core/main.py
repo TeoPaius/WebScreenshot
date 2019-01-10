@@ -1,21 +1,21 @@
-import pika
 import time
+import sys
+import os
+import asyncio
+from subprocess import Popen
 
-def initMq():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    channel = connection.channel()
+inputfilename = "input.in"
+ssServicePath = "../web/main.py"
 
-    channel.queue_declare(queue='task_queue', durable=True)
-    print(' [*] Waiting for messages. To exit press CTRL+C')
 
-    def callback(ch, method, properties, body):
-        print(" [x] Received %r" % body)
-        time.sleep(body.count(b'.'))
-        print(" [x] Done")
-        ch.basic_ack(delivery_tag=method.delivery_tag)
+file = open(inputfilename,'r')
 
-    channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(callback,
-                          queue='task_queue')
+for line in file:
+    if line != '':
 
-    channel.start_consuming()
+        time.sleep(0.5)
+        args = line
+        runCOmmand = "python " + ssServicePath + ' ' + args
+        Popen(['python', ssServicePath, args])
+        print("ran command")
+        # os.system(runCOmmand)

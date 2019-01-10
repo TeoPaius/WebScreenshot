@@ -3,6 +3,10 @@ import pika
 import sys
 import json
 import base64
+import re
+
+def processUrlName(url):
+    return url.strip('\n').replace('/', '_').replace(':', '_').replace('.', '_').replace('-', '_') + '.png'
 
 def takeScreenshot(url):
     options = webdriver.ChromeOptions()
@@ -21,14 +25,15 @@ def takeScreenshot(url):
     driver.close()
     return element_png
 
-def sendtoDb(data):
+def sendtoDb(data, url):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
     channel.queue_declare(queue='task_queue', durable=True)
 
+    name = processUrlName(url)
 
-    message = {'name': 'test2.png', 'data': base64.encodebytes(data).decode('ascii')}
+    message = {'name': name, 'data': base64.encodebytes(data).decode('ascii')}
     channel.basic_publish(exchange='',
                           routing_key='task_queue',
                           body=json.dumps(message),
@@ -39,6 +44,6 @@ def sendtoDb(data):
     connection.close()
 
 
-screen = takeScreenshot("https://www.python.org/")
+screen = takeScreenshot(sys.argv[1])
 
-sendtoDb(screen)
+sendtoDb(screen, sys.argv[1])

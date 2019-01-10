@@ -3,6 +3,8 @@ import time
 import json
 import base64
 
+basePath = "screenshots/"
+
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
@@ -15,7 +17,7 @@ def saveImgtoDb(data):
     content = base64.b64decode(json.loads(data)['data'])
 
     # filename = url.replace(['/', ':', '.'], '_') + ".png"
-    with open(filename, "wb") as file:
+    with open(basePath + filename, "wb") as file:
         file.write(content)
 
 def callback(ch, method, properties, body):
