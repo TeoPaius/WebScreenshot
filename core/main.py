@@ -1,7 +1,3 @@
-import time
-import sys
-import os
-import asyncio
 from subprocess import Popen
 
 inputfilename = "input.in"
@@ -15,7 +11,7 @@ for line in file:
 
         # time.sleep(0.5)
         args = line.split(' ')
-        runCOmmand = "python " + ssServicePath + ' ' + line
+        runCommand = "python " + ssServicePath + ' ' + line
         Popen(['python', ssServicePath, *args])
-        print("ran command: " + runCOmmand)
+        # print("ran command: " + runCommand)
         # os.system(runCOmmand)
