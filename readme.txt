@@ -3,4 +3,4 @@ Firstly the main from the db module needs to be run, which creates the db instan
 And then the main from the core which provides a series of queries for the web module
 The web module can be used separately too just need the apropriate command line arguments
 Of course all modules need to run with the venv activated, otherwise they wont have the required dependencies
-The screenshots are located in db/screenshots
+The screenshots are located in db/screenshots and the input is in core/input.in
