@@ -5,6 +5,7 @@ import json
 import base64
 import re
 
+
 def processUrlName(url):
     return url.strip('\n').replace('/', '_').replace(':', '_').replace('.', '_').replace('-', '_') + '.png'
 
@@ -28,11 +29,9 @@ def takeScreenshot(url):
 def sendtoDb(data, url):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-
-    channel.queue_declare(queue='task_queue', durable=True)
-
+    # channel.queue_declare(queue='task_queue', durable=True)
     name = processUrlName(url)
-
+    print("SENDING TO BD " + name)
     message = {'name': name, 'data': base64.encodebytes(data).decode('ascii')}
     channel.basic_publish(exchange='',
                           routing_key='task_queue',
@@ -44,6 +43,10 @@ def sendtoDb(data, url):
     connection.close()
 
 
-screen = takeScreenshot(sys.argv[1])
+if len(sys.argv) == 2 :
+    screen = takeScreenshot(sys.argv[1])
+    sendtoDb(screen, sys.argv[1])
 
-sendtoDb(screen, sys.argv[1])
+if sys.argv[1] == 'r':
+    print("PERFORMING READ on : " + sys.argv[2])
+

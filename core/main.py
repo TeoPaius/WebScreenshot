@@ -13,9 +13,9 @@ file = open(inputfilename,'r')
 for line in file:
     if line != '':
 
-        time.sleep(0.5)
-        args = line
-        runCOmmand = "python " + ssServicePath + ' ' + args
-        Popen(['python', ssServicePath, args])
-        print("ran command")
+        # time.sleep(0.5)
+        args = line.split(' ')
+        runCOmmand = "python " + ssServicePath + ' ' + line
+        Popen(['python', ssServicePath, *args])
+        print("ran command: " + runCOmmand)
         # os.system(runCOmmand)

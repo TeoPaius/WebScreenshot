@@ -19,14 +19,15 @@ def saveImgtoDb(data):
     # filename = url.replace(['/', ':', '.'], '_') + ".png"
     with open(basePath + filename, "wb") as file:
         file.write(content)
+    print("WROTE TO FILE " + filename)
 
 def callback(ch, method, properties, body):
     print("RECEIVED SCREEEN")
 
     saveImgtoDb(body)
 
-    print("WROTE TO FILE")
     ch.basic_ack(delivery_tag = method.delivery_tag)
+    print("BD acknowledged")
 
 channel.basic_qos(prefetch_count=1)
 channel.basic_consume(callback,
