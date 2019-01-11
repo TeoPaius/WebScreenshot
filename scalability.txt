@@ -1,0 +1,7 @@
+I tried to implement a solution that was as low coupled as possible
+This allows to replace or change module with adaptaer to any sort of db clients or selenium drivers
+Using rabbitmq i think there can be used multiple db clients so the total work would be splited, but of course
+this needs an aditional layer of synchronizing db queries
+By being modular i think it could be a possible solution to huge workloads just to increase the number of modules used
+and synchronise them
+Right now i was using a single db instance and a web module instance

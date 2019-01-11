@@ -1,0 +1,5 @@
+To run this firstly it needs and active rabbitmq service. I included the chrome driver for selenium
+Firstly the main from the db module needs to be run, which creates the db instance
+And then the main from the core which provides a series of queries for the web module
+The web module can be used separately too just need the apropriate command line arguments
+Of course all modules need to run with the venv activated, otherwise they wont have the required dependencies
