@@ -46,19 +46,20 @@ def findById(fileName):
         return '\n'.join([file for file in os.listdir('..\\db\\screenshots')])[:-1]
     if fileName not in os.listdir('..\\db\\screenshots'):
         return 'invalid file name'
-    return fileName
+    with open(basePath + fileName, "rb") as file:
+        data = file.read()
+    return fileName,data
 
 
 def readCallback(ch, method, properties, body):
     # callback used when receiving read request
     name = body.decode("ascii")
-
-    response = findById(name)
-
+    result = findById(name)
+    response = {"filename": result[0], "data": base64.encodebytes(result[1]).decode('ascii')}
     ch.basic_publish(exchange='',
                      routing_key=properties.reply_to,
                      properties=pika.BasicProperties(correlation_id= properties.correlation_id),
-                     body=str(response))
+                     body=json.dumps(response))
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 

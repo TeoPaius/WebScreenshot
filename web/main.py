@@ -6,7 +6,9 @@ import sys
 import json
 import base64
 import uuid
-
+import cv2
+import numpy as np
+import matplotlib.pyplot
 
 class WebClient:
     # as much as i wanted to make this without retaining state, for this client i needed a class to store
@@ -75,6 +77,14 @@ class WebClient:
         if self.corr_id == props.correlation_id:
             self.response = body.decode("ascii")
 
+    def showImg(self, img):
+        nparr = np.frombuffer(img, dtype=np.uint8)
+        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+        cv2.imshow("test display", img)
+        cv2.waitKey(-1)
+        cv2.destroyAllWindows()
+
     def fetchFromDb(self, url):
         # sends the read request
         self.response = None
@@ -89,7 +99,12 @@ class WebClient:
         # here waits until it get a response from read and then sets the respons member of the class to be use
         while self.response is None:
             self.connection.process_data_events()
-        return self.response
+
+        json_response = json.loads(self.response)
+        element_png = base64.b64decode(json_response['data'])
+        self.showImg(element_png)
+
+        return json_response["filename"]
 
 
 client = WebClient()
