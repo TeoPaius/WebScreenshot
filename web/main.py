@@ -87,6 +87,7 @@ class WebClient:
 
     def fetchFromDb(self, url):
         # sends the read request
+        # response = {filename: string, img: bytearray as string}
         self.response = None
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(exchange='',

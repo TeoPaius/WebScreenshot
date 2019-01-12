@@ -7,6 +7,7 @@
 # POSSIBLE COMMANDS:  'url' - takes a screenshot at the specified url
 #                     'r url' - returns from db layer (now just the name of the saved file) but this can be
 #                       replaced with an adapter for a visual interface to get the actual image
+#                       added also an opencv visualization for this kind of queries
 #                     'r *' - in the same manner gets all file names
 
 from subprocess import Popen
