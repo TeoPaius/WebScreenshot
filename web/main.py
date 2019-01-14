@@ -11,6 +11,8 @@ import numpy as np
 import matplotlib.pyplot
 
 
+headlessChrome = False
+
 
 
 class WebClient:
@@ -37,12 +39,13 @@ class WebClient:
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
         options.add_argument("--test-type")
+        options.headless = headlessChrome
         # options.binary_location = "C:\\Program Files (x86)\\Google\\Chrome\\Application"
 
 
-        # driver = webdriver.Chrome(
-        #     '../chromedriver_win32/chromedriver.exe')  # Optional argument, if not specified will search path.
-        driver = webdriver.PhantomJS('../phantomjs_win/bin/phantomjs.exe')
+        driver = webdriver.Chrome(
+            '../chromedriver_win32/chromedriver.exe', options=options)  # Optional argument, if not specified will search path.
+        # driver = webdriver.PhantomJS('../phantomjs_win/bin/phantomjs.exe')
 
 
         driver.get(url)
