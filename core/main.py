@@ -27,3 +27,4 @@ for line in file:
         runCommand = "python " + ssServicePath + ' ' + line
         Popen(['python', ssServicePath, *args])
         # print("ran command: " + runCommand)
+print("DONE")

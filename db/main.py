@@ -43,9 +43,9 @@ def findById(fileName):
     # this part can be adapted according to what we need from the db
     # now i returned only the modified name of the chosen file or all files if they exist
     if fileName == '*.png':
-        return '\n'.join([file for file in os.listdir('..\\db\\screenshots')])[:-1]
+        return '\n'.join([file for file in os.listdir('..\\db\\screenshots')])[:-1], b'0'
     if fileName not in os.listdir('..\\db\\screenshots'):
-        return 'invalid file name'
+        return 'invalid file name', b'0'
     with open(basePath + fileName, "rb") as file:
         data = file.read()
     return fileName,data

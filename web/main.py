@@ -10,6 +10,9 @@ import cv2
 import numpy as np
 import matplotlib.pyplot
 
+
+
+
 class WebClient:
     # as much as i wanted to make this without retaining state, for this client i needed a class to store
     # i needed this to wait for the result of the read requests, but most certainly there should be a way
@@ -35,8 +38,12 @@ class WebClient:
         options.add_argument('--ignore-certificate-errors')
         options.add_argument("--test-type")
         # options.binary_location = "C:\\Program Files (x86)\\Google\\Chrome\\Application"
-        driver = webdriver.Chrome(
-            '../chromedriver_win32/chromedriver.exe')  # Optional argument, if not specified will search path.
+
+
+        # driver = webdriver.Chrome(
+        #     '../chromedriver_win32/chromedriver.exe')  # Optional argument, if not specified will search path.
+        driver = webdriver.PhantomJS('../phantomjs_win/bin/phantomjs.exe')
+
 
         driver.get(url)
 
@@ -78,6 +85,8 @@ class WebClient:
             self.response = body.decode("ascii")
 
     def showImg(self, img):
+        if img == b'0':
+            return
         nparr = np.frombuffer(img, dtype=np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
